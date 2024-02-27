@@ -15,6 +15,7 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("http://localhost:8080"); // 设置访问源地址
+        corsConfiguration.addAllowedOrigin("http://localhost:8080/shownews");
         corsConfiguration.addAllowedHeader("*"); // 设置访问源请求头
         corsConfiguration.addAllowedMethod("*"); // 设置访问源请求方法
         corsConfiguration.setAllowCredentials(true); // 允许访问源带cookie

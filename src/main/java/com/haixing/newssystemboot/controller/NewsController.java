@@ -3,13 +3,16 @@ package com.haixing.newssystemboot.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.haixing.newssystemboot.controller.dto.NewsDTO;
+import com.haixing.newssystemboot.controller.dto.ShowNewsDTO;
 import com.haixing.newssystemboot.mapper.NewsMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.MissingResourceException;
@@ -18,6 +21,7 @@ import com.haixing.newssystemboot.service.INewsService;
 import com.haixing.newssystemboot.entity.News;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * <p>
@@ -52,6 +56,18 @@ public class NewsController {
         }
 
         return newsDTOList;
+    }
+
+    @GetMapping("/shownews")
+    public ShowNewsDTO showNews(@RequestParam(value = "id", required = false) Integer id) {
+        News news = newsService.showNews(id);
+        if (news != null) {
+            ShowNewsDTO showNewsDTO = new ShowNewsDTO(news.getId(), news.getTitle(), news.getAddtime(), news.getContent());
+            // 根据实际需要将News对象的其他属性复制到ShowNewsDTO对象中...
+            return showNewsDTO;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No news found with the specified ID.");
+        }
     }
 
     @GetMapping("/findLastFiveNews")
@@ -112,8 +128,13 @@ public class NewsController {
 
     @GetMapping("/page")
     public Page<News> findPage(@RequestParam Integer pageNum,
-                                    @RequestParam Integer pageSize) {
+                               @RequestParam Integer pageSize,
+                               @RequestParam(defaultValue = "") String title
+                               ) {
         QueryWrapper<News> queryWrapper = new QueryWrapper<>();
+        if (!title.isEmpty()) {
+            queryWrapper.like("title", title);
+        }
         queryWrapper.orderByDesc("id");
         return newsService.page(new Page<>(pageNum, pageSize), queryWrapper);
     }

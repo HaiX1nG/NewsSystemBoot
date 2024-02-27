@@ -16,4 +16,5 @@ import java.util.List;
 public interface INewsService extends IService<News> {
 
     List<News> search(String title);
+    News showNews(Integer id);
 }

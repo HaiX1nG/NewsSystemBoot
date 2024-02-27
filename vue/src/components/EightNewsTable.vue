@@ -47,9 +47,9 @@ export default {
             <span>·</span>
           </td>
           <td class="news-title" style="width: 561px; height: 36px; font-size: 14px;">
-            <a href="#" style="text-decoration: none; color: #222222;" :title="news.title">
+            <router-link :to="{ name: '显示新闻', params: { id: news.id } }" style="text-decoration: none; color: #222222;" :title="news.title">
               {{ news.title }}
-            </a>
+            </router-link>
           </td>
           <td style="width: 78px; height: 36px; font-size: 14px; color: #777777">
               {{ news.addtimeFormatted }}

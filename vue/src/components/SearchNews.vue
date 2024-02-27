@@ -6,12 +6,7 @@ export default {
   name: "SearchNews",
   data() {
     return {
-      newsList: [{
-        value: '1',
-        address: '1',
-        title: '1',
-        image: require('@/assets/images/search.jpg')
-      }],
+      newsList: [],
       searchQuery: '',
       placeholderImage: require('@/assets/images/search.jpg'),
       timeout:  null
@@ -50,6 +45,7 @@ export default {
 
     handleSelect(item) {
       console.log(item);
+      this.$router.push({ name: '显示新闻', params: { id:item.address } })
     }
   },
   mounted() {

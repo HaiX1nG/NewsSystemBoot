@@ -123,6 +123,26 @@ const routes = [
         path: '/footer',
         name: '底部',
         component: () => import('../components/Footer.vue')
+    },
+    {
+        path: '/shownews/:id',
+        name: '显示新闻',
+        component: () => import('../views/ShowNews.vue')
+    },
+    {
+        path: '/manage',
+        name: '管理',
+        component: () => import('../views/Manage.vue')
+    },
+    {
+        path: '/news',
+        name: '新闻管理',
+        component: () => import('../views/News.vue')
+    },
+    {
+        path: '/login',
+        name: '登录',
+        component: () => import('../views/Login.vue')
     }
 ]
 
